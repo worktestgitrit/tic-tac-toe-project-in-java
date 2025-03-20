@@ -1,0 +1,77 @@
+import java.util.*;
+
+class Main {
+  public static void main(String[] args) {
+    char[][] board = new char[3][3];
+    for (int row = 0; row < board.length; row++) {
+      for (int col = 0; col < board[row].length; col++) {
+        board[row][col] = ' ';
+      }
+    }
+
+    char contestant = 'X';
+    boolean out = false;
+    Scanner scanner = new Scanner(System.in);
+
+    while (!out) {
+      printBoard(board);
+      System.out.print("contestant " + contestant + " enter: ");
+      int row = scanner.nextInt();
+      int col = scanner.nextInt();
+      System.out.println();
+
+      if (board[row][col] == ' ') {
+        board[row][col] = contestant; // place the element
+        out = triumph(board, contestant);
+        if (out) {
+          System.out.println("contestant " + contestant + " has won: ");
+        } else {
+           if (contestant == 'X') {
+           contestant = 'O';
+           } else {
+           contestant = 'X';
+           }
+          //contestant = (contestant == 'X') ? 'O' : 'X';
+        }
+      } else {
+        System.out.println("Invalid move. Try again!");
+      }
+    }
+    printBoard(board);
+  }
+
+  public static boolean triumph(char[][] board, char contestant) {
+    // check the rows
+    for (int row = 0; row < board.length; row++) {
+      if (board[row][0] == contestant && board[row][1] == contestant && board[row][2] == contestant) {
+        return true;
+      }
+    }
+
+    // check for columns
+    for (int col = 0; col < board[0].length; col++) {
+      if (board[0][col] == contestant && board[1][col] == contestant && board[2][col] == contestant) {
+        return true;
+      }
+    }
+
+    // for diagonal
+    if (board[0][0] == contestant && board[1][1] == contestant && board[2][2] == contestant) {
+      return true;
+    }
+
+    if (board[0][2] == contestant && board[1][1] == contestant && board[2][0] == contestant) {
+      return true;
+    }
+    return false;
+  }
+
+  public static void printBoard(char[][] board) {
+    for (int row = 0; row < board.length; row++) {
+      for (int col = 0; col < board[row].length; col++) {
+        System.out.print(board[row][col] + " | ");
+      }
+      System.out.println();
+    }
+  }
+}
